@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
-import { Heart, ExternalLink } from 'lucide-react';
+import { ExternalLink, Heart } from 'lucide-react';
+import qrCodeImg from '../../fotos/qrcode.png';
+import { PixDonationModal } from '../components/PixDonationModal';
 
 export function Donations() {
   const { t } = useLanguage();
+  const [isPixModalOpen, setIsPixModalOpen] = useState(false);
+  const PIX_CNPJ = '02.920.944/0001-02';
 
   // Liste précise des partenaires internationaux [cite : 8]
   const partners = [
@@ -19,7 +24,7 @@ export function Donations() {
         
         {/* Titre avec dégradé Vert-Orange [cite : 10] */}
         <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-16 bg-gradient-to-r from-[#22c55e] to-[#f97316] bg-clip-text text-transparent">
-          Contribua com a nossa causa
+          {t.donations.title}
         </h1>
 
         {/* Graphique de progression circulaire [cite : 10] */}
@@ -62,7 +67,7 @@ export function Donations() {
           
           {/* Dons en Euros - Lien HelloAsso */}
           <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-shadow border border-gray-100 text-center">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900">Doações Internacionais (em Euros)</h2>
+            <h2 className="text-2xl font-bold mb-4 text-gray-900">{t.donations.international}</h2>
             <p className="text-gray-600 mb-8 text-sm">
               Para quem mora fora do Brasil, é possível doar em euros através da plataforma segura HelloAsso.
             </p>
@@ -79,21 +84,34 @@ export function Donations() {
 
           {/* Dons au Brésil - Sans lien direct */}
           <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-shadow border border-gray-100 text-center">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900">Doações no Brasil (em Reais)</h2>
+            <h2 className="text-2xl font-bold mb-4 text-gray-900">{t.donations.brazil}</h2>
             <p className="text-gray-600 mb-8 text-sm">
               Para quem mora no Brasil, é possível contribuir em reais via PIX ou plataformas locais.
             </p>
-            <button className="w-full bg-[#22c55e] hover:bg-green-600 text-white py-4 rounded-xl font-bold text-lg transition-colors flex items-center justify-center gap-2 shadow-lg cursor-default">
+            <button
+              type="button"
+              onClick={() => setIsPixModalOpen(true)}
+              className="w-full bg-[#22c55e] hover:bg-green-600 text-white py-4 rounded-xl font-bold text-lg transition-colors flex items-center justify-center gap-2 shadow-lg"
+            >
               <Heart className="w-6 h-6" />
               Doar em Reais
             </button>
           </div>
         </div>
 
+        <PixDonationModal
+          open={isPixModalOpen}
+          onClose={() => setIsPixModalOpen(false)}
+          title="Faça sua doação via PIX"
+          qrImageSrc={qrCodeImg}
+          cnpj={PIX_CNPJ}
+          hintText="Para doar, basta apontar a câmera do aplicativo do seu banco para este código."
+        />
+
         {/* Section Partenaires [cite : 8] */}
         <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 border border-gray-100">
           <h2 className="text-4xl font-extrabold mb-12 text-center bg-gradient-to-r from-[#22c55e] to-[#f97316] bg-clip-text text-transparent">
-            Nossos Parceiros
+            {t.donations.partners}
           </h2>
 
           <div className="grid md:grid-cols-2 gap-12">
