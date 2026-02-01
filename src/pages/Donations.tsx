@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { ExternalLink, Heart } from 'lucide-react';
-import qrCodeImg from '../../fotos/qrcode.png';
 import { PixDonationModal } from '../components/PixDonationModal';
 
 export function Donations() {
   const { t } = useLanguage();
   const [isPixModalOpen, setIsPixModalOpen] = useState(false);
+  const QR_CODE_IMG = "https://files.catbox.moe/1b9dbl.png";
   const PIX_CNPJ = '02.920.944/0001-02';
 
   // Liste précise des partenaires internationaux [cite : 8]
@@ -103,7 +103,7 @@ export function Donations() {
           open={isPixModalOpen}
           onClose={() => setIsPixModalOpen(false)}
           title="Faça sua doação via PIX"
-          qrImageSrc={qrCodeImg}
+          qrImageSrc={QR_CODE_IMG}
           cnpj={PIX_CNPJ}
           hintText="Para doar, basta apontar a câmera do aplicativo do seu banco para este código."
         />
